@@ -42,9 +42,7 @@ conda)
     if [ ! "$conda_env" ]; then
         echo "Conda environment not specified. Use -c <name>" && exit 1
     fi
-    CONDA_PATH="<path-to-conda-bin>"  # <--------- update this if using conda
-    export PATH=$CONDA_PATH:$PATH
-    eval "$(conda shell.bash hook)"
+    source $(conda info --base)/etc/profile.d/conda.sh
     conda activate "$conda_env"
     ;;
 venv)
@@ -68,7 +66,7 @@ esac
 
 # ROOT DIRECTORY FOR ALL BACKUPS ########################################################
 
-ROOT="<root-directory-for-all-aiida-backups>/aiida" # <--------- update this
+ROOT="/home/edanb/PSI/group/aiida-backup-setup/backups/aiida"
 
 # BACKUP UTILITY ########################################################################
 
@@ -88,7 +86,7 @@ backup() {
     echo
     echo "Backing up \"$project\" project"
     echo
-    
+
     for profile in $profiles; do
         path="$ROOT/$project/$profile"
         mkdir -p "$path"
