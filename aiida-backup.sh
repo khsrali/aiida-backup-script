@@ -77,7 +77,7 @@ backup() {
 
     # Overwrite log file, if exists
     mkdir -p "$ROOT/$project"
-    echo -e "\nBacking up \"$project\" project\n" 2>&1 | tee $log_file
+    echo -e "\nBacking up \"$project\" project" 2>&1 | tee $log_file
 
     # Get a list of profiles (find all profile names if not specified)
     if [ ! "$profiles" ]; then
