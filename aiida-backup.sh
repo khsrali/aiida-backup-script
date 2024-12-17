@@ -75,20 +75,21 @@ backup() {
     local profiles=$2
     local log_file="$ROOT/$project/backup.log"
 
-    # Overwite log file, if exists
-    echo -e "\nProfiles to backup: \"$profiles\"\n" 2>&1 | tee $log_file
+    # Overwrite log file, if exists
+    mkdir -p "$ROOT/$project"
+    echo -e "\nBacking up \"$project\" project\n" 2>&1 | tee $log_file
 
+    # Get a list of profiles (find all profile names if not specified)
     if [ ! "$profiles" ]; then
         profiles=$(verdi profile list)
         if grep -q Warning <<<"$profiles"; then
             echo "No profiles found!" | tee -a $log_file && exit 1
         else
-            profiles=$(echo "$profiles" | xargs | cut -d '*' -f2)
+            profiles=$(echo "$profiles" | sed 's/.*\.aiida//;s/\*.*//' |  xargs)
         fi
     fi
 
-    echo -e "\nBacking up \"$project\" project\n" 2>&1 | tee -a $log_file
-
+    # Backup each profile
     for profile in $profiles; do
         path="$ROOT/$project/$profile"
         mkdir -p "$path"
