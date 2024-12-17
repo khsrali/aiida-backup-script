@@ -92,7 +92,7 @@ backup() {
     for profile in $profiles; do
         path="$ROOT/$project/$profile"
         mkdir -p "$path"
-        echo "\nBacking up \"$profile\" profile to $path \n" 2>&1 | tee -a $log_file
+        echo -e "\nBacking up \"$profile\" profile to $path \n" 2>&1 | tee -a $log_file
         (verdi -p "$profile" storage backup "$path") 2>&1 | tee -a $log_file
     done
 }
